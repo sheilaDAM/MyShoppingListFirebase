@@ -6,12 +6,12 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.MyShoppingListFirebase"
-        tools:targetApi="31">
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/Theme.MyShoppingListFirebase"
+            tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -21,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ShoppingListsActivity"></activity>
+        <activity android:name=".ShoppingListEmpty"></activity>
+        <activity android:name=".ProductListActivity"></activity>
+        <activity android:name=".ProductsInShoppingListEmpty"></activity>
+        <activity android:name=".ProductsInCategoryListActivity"></activity>
+        <activity android:name=".ProductsInShoppingList"></activity>
     </application>
 
 </manifest>
