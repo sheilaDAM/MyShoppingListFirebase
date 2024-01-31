@@ -100,8 +100,7 @@ public class ShoppingListAdapter extends FirestoreRecyclerAdapter<ListClass, Sho
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    // Maneja el error al obtener la colección productsInList.
-                    Toast.makeText(context, "Error getting productsInList: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Error getting productsInList quantyty: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } //fin class ListClassViewHolder
