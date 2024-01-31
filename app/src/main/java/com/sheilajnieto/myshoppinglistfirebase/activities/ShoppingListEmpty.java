@@ -26,7 +26,7 @@ import com.sheilajnieto.myshoppinglistfirebase.R;
 import com.sheilajnieto.myshoppinglistfirebase.models.ListClass;
 import com.sheilajnieto.myshoppinglistfirebase.ui.ShowAddListBoxDialog;
 
-// ------- ESTA ACTIVITY ES PARA MOSTRAR SI NO HAY LISTAS DE LA COMPRA CREADAS -------
+// ------- ESTA ACTIVITY ES PARA MOSTRAR UN TEXTO SI NO HAY LISTAS DE LA COMPRA CREADAS -------
 public class ShoppingListEmpty extends AppCompatActivity implements ShowAddListBoxDialog.OnListAddedListener{
 
     private Button btnAdd;

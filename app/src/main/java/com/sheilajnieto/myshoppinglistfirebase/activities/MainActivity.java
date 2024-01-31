@@ -48,16 +48,17 @@ public class MainActivity extends AppCompatActivity {
         //      Toast.makeText(this, "Bienvenido: " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT).show();
         FirebaseFirestore db = FirebaseFirestore.getInstance(); //esto es para obtener la instancia de la base de datos
 
+        //------- LO PRIMERO QUE HACEMOS ES COMPROBAR SI EN FIREBASE TENEMOS LISTAS CREADAS O NO -------
         db.collection("myLists")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (task.getResult().isEmpty()) {
-                                // No hay listas, mostrar la actividad "No hay listas creadas"
+                                // SI No hay listas, mostramos la actividad "No hay listas creadas"
                                 showEmptyShoppingLists();
                             } else {
-                                // Hay listas, mostrar la actividad de shoppinglist
+                                // Si hay listas, mostramos la actividad de shoppinglist
                                 showShoppingLists();
                             }
                         } else {
@@ -65,11 +66,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-        List<Product> productsInCategory8 = new ArrayList<>();
-        productsInCategory8.add(new Product("Velas de cera de soja", false, "candle.jpg"));
-        Category category8 = new Category("Decoración y hogar", "decor.jpg");
 
 
         db.collection("myLists")
@@ -156,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
         productsInCategory7.add(new Product("Proteína", false, "eggs.jpg"));
         Category category7 = new Category("Proteínas", "protein.jpg");
 
+        List<Product> productsInCategory8 = new ArrayList<>();
+        productsInCategory8.add(new Product("Velas de cera de soja", false, "candle.jpg"));
+        Category category8 = new Category("Decoración y hogar", "decor.jpg");
+
          */
 
         //------- CÓDIGO PARA AÑADIR CATEGORÍAS A LA BASE DE DATOS -------
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     }
 */
 
-} // ------- fin onCreate ---------
+    } // ------- fin onCreate ---------
 
     @Override
     protected void onPause() {

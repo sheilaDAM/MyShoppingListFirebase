@@ -79,6 +79,7 @@ public class ShoppingListAdapter extends FirestoreRecyclerAdapter<ListClass, Sho
         public void onClick(View v) {
            shoppingListSelectedId = getSnapshots().getSnapshot(getBindingAdapterPosition()).getId();
            shoppingListSelectedName = tvListName.getText().toString();
+           //AL PULSAR SOBRE UNA LISTA CONCRETA COMPROBAMOS SI HAY EN ELLA PRODUCTOS AÑADIDOS O NO
            checkProductsInList(shoppingListSelectedId, shoppingListSelectedName, context);
         }
     } //fin class ListClassViewHolder

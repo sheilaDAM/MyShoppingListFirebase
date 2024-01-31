@@ -36,7 +36,7 @@ import com.sheilajnieto.myshoppinglistfirebase.models.ListClass;
 import com.sheilajnieto.myshoppinglistfirebase.models.adapters.ShoppingListAdapter;
 import com.sheilajnieto.myshoppinglistfirebase.ui.ShowAddListBoxDialog;
 
-// ------- ESTA ACTIVITY ES PARA MOSTRAR LAS LISTAS DE LA COMPRA CREADAS -------
+// ------- ESTA ACTIVITY ES PARA MOSTRAR LAS LISTAS DE LA COMPRA CREADAS EN UN RECYCLERVIEW  -------
 public class ShoppingListsActivity extends AppCompatActivity implements UpdateListFragmentAfterDelete, ShowAddListBoxDialog.OnListAddedListener {
 
     private Button btnAdd;
@@ -64,6 +64,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements UpdateLi
 
         loadShoppingLists();
 
+        //------- MANEJO FUNCIONALIDAD DEL BOTÓN PARA AÑADIR NUEVAS LISTAS DE LA COMPRA -------
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -37,7 +37,7 @@ import com.sheilajnieto.myshoppinglistfirebase.models.adapters.ProductListAdapte
 
 import java.util.ArrayList;
 
-// ------- ESTA ACTIVITY ES PARA MOSTRAR LOS PRODUCTOS QUE SE AÑADAN EN LA LISTA SELECCONADA -------
+// ------- ESTA ACTIVITY ES PARA MOSTRAR LOS PRODUCTOS QUE SE HAN AÑADIDO EN LA LISTA SELECCIONADA -------
 public class ProductsInShoppingList extends AppCompatActivity implements UpdateListFragmentAfterDelete {
 
     private Toolbar toolbar;
@@ -61,7 +61,7 @@ public class ProductsInShoppingList extends AppCompatActivity implements UpdateL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Obtener el ID de la categoría de la actividad anterior
+        // Obtenemos varios datos de la actividad anterior
         shoppingListSelectedName = getIntent().getStringExtra("shoppingListName");
         shoppingListSelectedId = getIntent().getStringExtra("shoppingListId");
         categorySelectedId = getIntent().getStringExtra("categoryId");
@@ -78,8 +78,10 @@ public class ProductsInShoppingList extends AppCompatActivity implements UpdateL
         Log.d("PRODUCT CLICKED", "ID selected category: " + categorySelectedId);
         Log.d("LIST NAME", "Name selected shopping list: " + shoppingListSelectedName);
 
+        //------- CARGAMOS LOS PRODUCTOS DE LA LISTA DE LA COMPRA SELECCIONADA -------
         loadProductsInShoppingListSelected(shoppingListSelectedId);
 
+        //------- MANEJO DEL BOTÓN PARA AÑADIR NUEVOS PRODUCTOS A LA LISTA DE LA COMPRA SELECCIONADA -------
         btnAdd.setOnClickListener(v -> {
             loadCategoryLists();
         });
