@@ -98,7 +98,7 @@ public class ProductListAdapter extends FirestoreRecyclerAdapter<Product, Produc
         // Obtenemos la referencia al documento del producto seleccionado dentro de la categoría seleccionada.
         // Primero accedemos al documento de la categoría seleccionada, luego a la colección de productos
         DocumentReference productInCategoryRef = db.collection("categories")
-                .document(categorySelectedId)  // Reemplaza "categoryId" con la ID de la categoría seleccionada.
+                .document(categorySelectedId)
                 .collection("products")
                 .document(selectedProductId);
 
