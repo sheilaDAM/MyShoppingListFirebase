@@ -27,7 +27,7 @@ public class CategoryListAdapter extends FirestoreRecyclerAdapter<Category, Cate
     private String shoppingListSelectedId;
     private String shoppingListSelectedName;
 
-    public CategoryListAdapter(@NonNull FirestoreRecyclerOptions<Category> options, String shoppingListSelectedId, String shoppingListSelectedName){
+    public CategoryListAdapter(@NonNull FirestoreRecyclerOptions<Category> options, String shoppingListSelectedId, String shoppingListSelectedName) {
         super(options);
         this.shoppingListSelectedId = shoppingListSelectedId;
         this.shoppingListSelectedName = shoppingListSelectedName;

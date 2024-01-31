@@ -27,16 +27,17 @@ import com.sheilajnieto.myshoppinglistfirebase.models.ListClass;
 import com.sheilajnieto.myshoppinglistfirebase.ui.ShowAddListBoxDialog;
 
 // ------- ESTA ACTIVITY ES PARA MOSTRAR UN TEXTO SI NO HAY LISTAS DE LA COMPRA CREADAS -------
-public class ShoppingListEmpty extends AppCompatActivity implements ShowAddListBoxDialog.OnListAddedListener{
+public class ShoppingListEmpty extends AppCompatActivity implements ShowAddListBoxDialog.OnListAddedListener {
 
     private Button btnAdd;
     private Toolbar toolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_shopping_lists);
 
-        Toast.makeText(this, "Entró en listas vacías." , Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Entró en listas vacías.", Toast.LENGTH_SHORT).show();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar); //esto es para que se muestre la toolbar

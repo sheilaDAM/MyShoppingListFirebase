@@ -50,7 +50,7 @@ public class ProductListAdapter extends FirestoreRecyclerAdapter<Product, Produc
         return new ProductViewHolder(v);
     }
 
-    class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView ivProductImage;
         private TextView tvProductName;

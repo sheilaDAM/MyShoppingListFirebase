@@ -21,7 +21,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 // ------- ESTA CLASE ES PARA ELIMINAR ITEMS DE LISTA EN CUALQUIER ADAPTADOR -------
 
-public class SwipeToDelete<T extends RecyclerView.Adapter<?>> extends ItemTouchHelper.SimpleCallback{
+public class SwipeToDelete<T extends RecyclerView.Adapter<?>> extends ItemTouchHelper.SimpleCallback {
 
     private final T adapter;
     private final Context mainContext;

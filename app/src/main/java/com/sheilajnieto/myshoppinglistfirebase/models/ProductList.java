@@ -13,7 +13,7 @@ public class ProductList {
     }
 
     public ProductList(int fkListId, int fkProductId, boolean isPurchased) {
-        this.fkListId= fkListId;
+        this.fkListId = fkListId;
         this.fkProductId = fkProductId;
         this.isPurchased = isPurchased;
     }

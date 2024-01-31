@@ -34,6 +34,7 @@ public class ShoppingListAdapter extends FirestoreRecyclerAdapter<ListClass, Sho
     private FirebaseFirestore db;
     private String shoppingListSelectedId;
     private String shoppingListSelectedName;
+
     public ShoppingListAdapter(@NonNull FirestoreRecyclerOptions<ListClass> options) {
         super(options);
     }

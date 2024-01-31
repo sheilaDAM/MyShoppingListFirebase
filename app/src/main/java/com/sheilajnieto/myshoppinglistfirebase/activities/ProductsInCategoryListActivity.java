@@ -82,15 +82,6 @@ public class ProductsInCategoryListActivity extends AppCompatActivity {
                     Category category = documentSnapshot.toObject(Category.class);
 
                     if (category != null) {
-                        // Obtenemos el ArrayList de productos de la categoría
-                        List<Product> productList = category.getProducts();
-
-                        // Log que muestre la cantidad de productos en la categoría
-                        Log.d("CATEGORY", "Number of products in category: " + productList.size());
-
-                        for (Product product : productList) {
-                            Log.d("CATEGORY", "Product Name: " + product.getName());
-                        }
 
                         // Creamos las opciones para el adaptador de productos
                         options = new FirestoreRecyclerOptions.Builder<Product>()
@@ -101,7 +92,7 @@ public class ProductsInCategoryListActivity extends AppCompatActivity {
 
                         if (options != null) {
                             // Inicializamos el adaptador con las opciones (la lista de productos) que rescatamos de firebase
-                            productGridAdapter = new ProductGridAdapter(options, shoppingListSelectedId, categorySelectedId,shoppingListSelectedName);
+                            productGridAdapter = new ProductGridAdapter(options, shoppingListSelectedId, categorySelectedId, shoppingListSelectedName);
                             // Establecemos el adaptador en el RecyclerView
                             listRecView.setLayoutManager(new GridLayoutManager(ProductsInCategoryListActivity.this, 3));
                             listRecView.setAdapter(productGridAdapter);
