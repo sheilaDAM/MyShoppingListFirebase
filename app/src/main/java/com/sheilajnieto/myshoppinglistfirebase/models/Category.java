@@ -17,6 +17,12 @@ public class Category {
     public Category() {
     }
 
+    public Category(String name, String image) {
+        this.name = name;
+        this.categoryImage = image;
+        this.products = new ArrayList<>();
+    }
+
     public Category(String name, String image, List<Product> products) {
         this.name = name;
         this.categoryImage = image;

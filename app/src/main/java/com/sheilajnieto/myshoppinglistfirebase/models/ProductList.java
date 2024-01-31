@@ -7,7 +7,6 @@ public class ProductList {
 
     private int fkListId;
     private int fkProductId;
-    private Product[] product;
     private boolean isPurchased;
 
     public ProductList() {
@@ -19,12 +18,6 @@ public class ProductList {
         this.isPurchased = isPurchased;
     }
 
-    public ProductList(int fkListId, int fkProductId, Product[] product, boolean isPurchased) {
-        this.fkListId= fkListId;
-        this.fkProductId = fkProductId;
-        this.product = product;
-        this.isPurchased = isPurchased;
-    }
 
     public int getFkListId() {
         return fkListId;
@@ -44,14 +37,6 @@ public class ProductList {
 
     public void setPurchased(boolean purchased) {
         isPurchased = purchased;
-    }
-
-    public Product[] getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product[] product) {
-        this.product = product;
     }
 
     public boolean isPurchased() {

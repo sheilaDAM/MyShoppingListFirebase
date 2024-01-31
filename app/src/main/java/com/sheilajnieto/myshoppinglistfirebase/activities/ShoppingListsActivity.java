@@ -1,10 +1,9 @@
-package com.sheilajnieto.myshoppinglistfirebase;/*
+package com.sheilajnieto.myshoppinglistfirebase.activities;/*
 @author sheila j. nieto 
 @version 0.1 2024 -01 - 24
 */
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -28,17 +27,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.sheilajnieto.myshoppinglistfirebase.DateTimeHelper;
+import com.sheilajnieto.myshoppinglistfirebase.R;
+import com.sheilajnieto.myshoppinglistfirebase.SwipeToDelete;
 import com.sheilajnieto.myshoppinglistfirebase.interfaces.UpdateListFragmentAfterDelete;
 import com.sheilajnieto.myshoppinglistfirebase.models.ListClass;
-import com.sheilajnieto.myshoppinglistfirebase.models.adapters.CategoryListAdapter;
 import com.sheilajnieto.myshoppinglistfirebase.models.adapters.ShoppingListAdapter;
 import com.sheilajnieto.myshoppinglistfirebase.ui.ShowAddListBoxDialog;
 
-import java.util.List;
-
+// ------- ESTA ACTIVITY ES PARA MOSTRAR LAS LISTAS DE LA COMPRA CREADAS -------
 public class ShoppingListsActivity extends AppCompatActivity implements UpdateListFragmentAfterDelete, ShowAddListBoxDialog.OnListAddedListener {
 
     private Button btnAdd;
@@ -59,7 +57,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements UpdateLi
         Toast.makeText(this, "Entró en listas para mostrarlas " , Toast.LENGTH_SHORT).show();
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Mis listas compra");
+        toolbar.setTitle("Mis listas de compra");
         setSupportActionBar(toolbar); //esto es para que se muestre la toolbar
 
         btnAdd = findViewById(R.id.btAdd);
@@ -104,7 +102,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements UpdateLi
 
         // Inicializamos el adaptador con las opciones (las listas) que rescatamos de firebase
         shoppingListAdapter = new ShoppingListAdapter(options);
-        itemTouchHelper = new ItemTouchHelper(new SwipeToDelete(shoppingListAdapter, this));
+        itemTouchHelper = new ItemTouchHelper(new SwipeToDelete<>(shoppingListAdapter, this));
         itemTouchHelper.attachToRecyclerView(listRecView);
         // Establecemos el adaptador en el RecyclerView
         listRecView.setAdapter(shoppingListAdapter);

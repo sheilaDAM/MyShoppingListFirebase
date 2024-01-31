@@ -1,9 +1,8 @@
-package com.sheilajnieto.myshoppinglistfirebase;/*
+package com.sheilajnieto.myshoppinglistfirebase.activities;/*
 @author sheila j. nieto 
 @version 0.1 2024 -01 - 27
 */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,31 +25,35 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.sheilajnieto.myshoppinglistfirebase.R;
 import com.sheilajnieto.myshoppinglistfirebase.models.Category;
 import com.sheilajnieto.myshoppinglistfirebase.models.adapters.CategoryListAdapter;
 
+// ------- ESTA ACTIVITY ES PARA MOSTRAR SI NO HAY PRODUCTOS DENTRO DE UNA LISTA DE COMPRA CREADA -------
 public class ProductsInShoppingListEmpty extends AppCompatActivity {
 
     private Button btnAdd;
     private Toolbar toolbar;
     private CategoryListAdapter categoryListAdapter;
     private FirebaseFirestore db;
-    private CollectionReference myListCollection;
+    private CollectionReference categoriesCollection;
     private FirestoreRecyclerOptions<Category> options;
     private RecyclerView listRecView;
-    private String listClickedId;
+    private String shoppingListSelectedId;
+    private String shoppingListSelectedName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_products);
 
-        listClickedId = getIntent().getStringExtra("listClickedId");
+        shoppingListSelectedId = getIntent().getStringExtra("shoppingListId");
+        shoppingListSelectedName = getIntent().getStringExtra("shoppingListName");
 
         Toast.makeText(this, "Entró en lista sin productos.", Toast.LENGTH_SHORT).show();
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Mi lista");
+        toolbar.setTitle(shoppingListSelectedName);
         setSupportActionBar(toolbar);
 
         btnAdd = findViewById(R.id.btAdd);
@@ -72,12 +74,12 @@ public class ProductsInShoppingListEmpty extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Mi lista");
+        toolbar.setTitle("Categorías");
         setSupportActionBar(toolbar);
 
         db = FirebaseFirestore.getInstance();
         // Obtenemos la referencia al documento de la lista en Firebase Firestore.
-        DocumentReference listRef = db.collection("categories").document(listClickedId);
+        DocumentReference listRef = db.collection("categories").document(shoppingListSelectedId);
 
         // Realizamos la consulta para obtener el documento de la lista.
         listRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -86,15 +88,15 @@ public class ProductsInShoppingListEmpty extends AppCompatActivity {
 
                 listRecView = findViewById(R.id.recView);
 
-                myListCollection = db.collection("categories");
+                categoriesCollection = db.collection("categories");
 
                 // Configuramos las opciones del adaptador, es decir, los datos que le pasamos al adaptador para que los cargue en el RecyclerView
                 options = new FirestoreRecyclerOptions.Builder<Category>()
-                        .setQuery(myListCollection, Category.class)
+                        .setQuery(categoriesCollection, Category.class)
                         .build();
 
                 // Inicializamos el adaptador con las opciones (las listas) que rescatamos de firebase
-                categoryListAdapter = new CategoryListAdapter(options);
+                categoryListAdapter = new CategoryListAdapter(options, shoppingListSelectedId, shoppingListSelectedName);
                 // Establecemos el adaptador en el RecyclerView
                 listRecView.setAdapter(categoryListAdapter);
                 listRecView.addItemDecoration(new DividerItemDecoration(ProductsInShoppingListEmpty.this, DividerItemDecoration.VERTICAL));

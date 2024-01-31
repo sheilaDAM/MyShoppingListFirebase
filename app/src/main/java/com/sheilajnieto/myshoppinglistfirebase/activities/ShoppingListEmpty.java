@@ -1,4 +1,4 @@
-package com.sheilajnieto.myshoppinglistfirebase;/*
+package com.sheilajnieto.myshoppinglistfirebase.activities;/*
 @author sheila j. nieto 
 @version 0.1 2024 -01 - 24
 */
@@ -21,9 +21,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.sheilajnieto.myshoppinglistfirebase.DateTimeHelper;
+import com.sheilajnieto.myshoppinglistfirebase.R;
 import com.sheilajnieto.myshoppinglistfirebase.models.ListClass;
 import com.sheilajnieto.myshoppinglistfirebase.ui.ShowAddListBoxDialog;
 
+// ------- ESTA ACTIVITY ES PARA MOSTRAR SI NO HAY LISTAS DE LA COMPRA CREADAS -------
 public class ShoppingListEmpty extends AppCompatActivity implements ShowAddListBoxDialog.OnListAddedListener{
 
     private Button btnAdd;
@@ -31,7 +34,7 @@ public class ShoppingListEmpty extends AppCompatActivity implements ShowAddListB
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_empty_shopping_lists);
+        setContentView(R.layout.activity_no_shopping_lists);
 
         Toast.makeText(this, "Entró en listas vacías." , Toast.LENGTH_SHORT).show();
 

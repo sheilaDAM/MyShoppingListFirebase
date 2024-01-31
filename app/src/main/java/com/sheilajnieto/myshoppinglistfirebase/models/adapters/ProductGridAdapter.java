@@ -1,4 +1,7 @@
-package com.sheilajnieto.myshoppinglistfirebase.models.adapters;
+package com.sheilajnieto.myshoppinglistfirebase.models.adapters;/*
+@author sheila j. nieto
+@version 0.1 2024 -01 - 30
+*/
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,32 +25,33 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sheilajnieto.myshoppinglistfirebase.R;
-import com.sheilajnieto.myshoppinglistfirebase.activities.ProductsInCategoryListActivity;
 import com.sheilajnieto.myshoppinglistfirebase.activities.ProductsInShoppingList;
 import com.sheilajnieto.myshoppinglistfirebase.models.Product;
 
-public class ProductListAdapter extends FirestoreRecyclerAdapter<Product, ProductListAdapter.ProductViewHolder> {
+public class ProductGridAdapter extends FirestoreRecyclerAdapter<Product, ProductGridAdapter.ProductViewHolder> {
 
     private FirebaseFirestore db;
     private String shoppingListSelectedId;
     private String categorySelectedId;
+    private String shoppingListSelectedName;
 
-    public ProductListAdapter(@NonNull FirestoreRecyclerOptions<Product> options, String shoppingListSelectedId, String categorySelectedId) {
+    public ProductGridAdapter(@NonNull FirestoreRecyclerOptions<Product> options, String shoppingListSelectedId, String categorySelectedId, String shoppingListSelectedName) {
         super(options);
         this.shoppingListSelectedId = shoppingListSelectedId;
         this.categorySelectedId = categorySelectedId;
+        this.shoppingListSelectedName = shoppingListSelectedName;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ProductViewHolder holder, int position, @NonNull Product model) {
+    protected void onBindViewHolder(@NonNull ProductGridAdapter.ProductViewHolder holder, int position, @NonNull Product model) {
         holder.bindProduct(model);
     }
 
     @NonNull
     @Override
-    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_products_in_list, parent, false);
-        return new ProductViewHolder(v);
+    public ProductGridAdapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.griditem_product, parent, false);
+        return new ProductGridAdapter.ProductViewHolder(v);
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -59,7 +63,7 @@ public class ProductListAdapter extends FirestoreRecyclerAdapter<Product, Produc
         public ProductViewHolder(@NonNull View itemview) {
             super(itemview);
             this.context = itemview.getContext();
-            this.ivProductImage = itemview.findViewById(R.id.ivImageOfProduct);
+            this.ivProductImage = itemview.findViewById(R.id.ivProductImage);
             this.tvProductName = itemview.findViewById(R.id.tvProductName);
 
             itemview.setOnClickListener(this);
@@ -86,12 +90,14 @@ public class ProductListAdapter extends FirestoreRecyclerAdapter<Product, Produc
             intent.putExtra("shoppingListId", shoppingListSelectedId);
             intent.putExtra("categoryId", categorySelectedId);
             intent.putExtra("productId", selectedProductId);
+            intent.putExtra("shoppingListName", shoppingListSelectedName);
             context.startActivity(intent);
         }
     } //fin class ProductViewHolder
 
     private void addSelectedProductInSelectedList(String selectedProductId, String shoppingListSelectedId) {
         db = FirebaseFirestore.getInstance();
+
         // Obtenemos la referencia al documento (a la lista seleccionada) en Firebase Firestore.
         DocumentReference listRef = db.collection("myLists").document(shoppingListSelectedId);
 
@@ -109,7 +115,7 @@ public class ProductListAdapter extends FirestoreRecyclerAdapter<Product, Produc
                 if (documentSnapshot.exists()) {
                     // Obtenemos los datos del producto desde la categoría seleccionada y los guardamos en un objeto Product.
                     Product selectedProduct = documentSnapshot.toObject(Product.class);
-
+                    Log.d("PRODUCT SELECTED", "Product selected: " + selectedProduct.getName());
                     if (selectedProduct != null) {
                         //Si el producto existe, lo añadimos a una nueva colección de productos dentro de la lista seleccionada.
                         //A esta nueva colección dentro de la lista seleccionada la llamaremos "productsInList".
@@ -122,7 +128,7 @@ public class ProductListAdapter extends FirestoreRecyclerAdapter<Product, Produc
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Log.d("MI LOG", "Product added to list successfully!");
+                                        Log.d("ADDING PRODUCT", "Product added to list successfully, product ID: " + selectedProductId);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

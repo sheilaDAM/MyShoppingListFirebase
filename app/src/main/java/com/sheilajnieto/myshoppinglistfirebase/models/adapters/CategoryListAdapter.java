@@ -5,7 +5,6 @@ package com.sheilajnieto.myshoppinglistfirebase.models.adapters;/*
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -19,15 +18,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.sheilajnieto.myshoppinglistfirebase.ProductsInCategoryListActivity;
+import com.sheilajnieto.myshoppinglistfirebase.activities.ProductsInCategoryListActivity;
 import com.sheilajnieto.myshoppinglistfirebase.R;
 import com.sheilajnieto.myshoppinglistfirebase.models.Category;
-import com.sheilajnieto.myshoppinglistfirebase.models.ListClass;
 
 public class CategoryListAdapter extends FirestoreRecyclerAdapter<Category, CategoryListAdapter.CategoryViewHolder> {
 
-    public CategoryListAdapter(@NonNull FirestoreRecyclerOptions<Category> options) {
+    private String shoppingListSelectedId;
+    private String shoppingListSelectedName;
+
+    public CategoryListAdapter(@NonNull FirestoreRecyclerOptions<Category> options, String shoppingListSelectedId, String shoppingListSelectedName){
         super(options);
+        this.shoppingListSelectedId = shoppingListSelectedId;
+        this.shoppingListSelectedName = shoppingListSelectedName;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class CategoryListAdapter extends FirestoreRecyclerAdapter<Category, Cate
         public CategoryViewHolder(@NonNull View itemview) {
             super(itemview);
             this.context = itemview.getContext();
-            this.ivCategoryImage = itemview.findViewById(R.id.ivCategoryImage);
+            this.ivCategoryImage = itemview.findViewById(R.id.ivImageOfProduct);
             this.tvCategoryName = itemview.findViewById(R.id.tvCategoryListName);
 
             itemview.setOnClickListener(this);
@@ -80,6 +83,8 @@ public class CategoryListAdapter extends FirestoreRecyclerAdapter<Category, Cate
             Intent intent = new Intent(v.getContext(), ProductsInCategoryListActivity.class);
             intent.putExtra("categoryId", categoryId);
             intent.putExtra("categoryName", tvCategoryName.getText().toString());
+            intent.putExtra("shoppingListId", shoppingListSelectedId);
+            intent.putExtra("shoppingListName", shoppingListSelectedName);
             v.getContext().startActivity(intent);
         }
     }
