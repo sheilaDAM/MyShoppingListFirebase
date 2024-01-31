@@ -72,83 +72,79 @@ public class ShoppingListAdapter extends FirestoreRecyclerAdapter<ListClass, Sho
         public void bindListClass(ListClass list) {
             tvListName.setText(list.getName());
             tvCreationDate.setText(list.getDate());
-            tvProductsQuantity.setText(String.valueOf(list.getProductQuantity()));
+            shoppingListSelectedId = getSnapshots().getSnapshot(getBindingAdapterPosition()).getId();
+            // Obtenemos la cantidad de productos en la lista actual.
+            getProductsQuantity(shoppingListSelectedId);
         }
 
         @Override
         public void onClick(View v) {
-           shoppingListSelectedId = getSnapshots().getSnapshot(getBindingAdapterPosition()).getId();
-           shoppingListSelectedName = tvListName.getText().toString();
-           //AL PULSAR SOBRE UNA LISTA CONCRETA COMPROBAMOS SI HAY EN ELLA PRODUCTOS AÑADIDOS O NO
-           checkProductsInList(shoppingListSelectedId, shoppingListSelectedName, context);
+            shoppingListSelectedId = getSnapshots().getSnapshot(getBindingAdapterPosition()).getId();
+            shoppingListSelectedName = tvListName.getText().toString();
+            //AL PULSAR SOBRE UNA LISTA CONCRETA COMPROBAMOS SI HAY EN ELLA PRODUCTOS AÑADIDOS O NO
+            checkProductsInList(shoppingListSelectedId, shoppingListSelectedName, context);
         }
-    } //fin class ListClassViewHolder
 
-    private void checkProductsInList(String shoppingListSelectedId, String shoppingListSelectedName, Context context) {
-        db = FirebaseFirestore.getInstance();
-        // Obtén la referencia al documento de la lista en Firebase Firestore.
-        DocumentReference myListsRef = db.collection("myLists").document(shoppingListSelectedId);
+        // Método para obtener y mostrar la cantidad de productos en la lista actual.
+        private void getProductsQuantity(String shoppingListId) {
+            db = FirebaseFirestore.getInstance();
+            DocumentReference myListsRef = db.collection("myLists").document(shoppingListId);
 
-        myListsRef.collection("productsInList").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot productsSnapshot) {
-                // Verificamos si la colección productsInList existe y tiene productos.
-                if (!productsSnapshot.isEmpty()) {
+            myListsRef.collection("productsInList").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot productsSnapshot) {
+                    // Actualizamos la cantidad de productos en tvProductsQuantity.
+                    tvProductsQuantity.setText(String.valueOf(productsSnapshot.size()));
+                    Log.d("PRODUCTS QUANTITY", "Products quantity: " + productsSnapshot.size());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Maneja el error al obtener la colección productsInList.
+                    Toast.makeText(context, "Error getting productsInList: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } //fin class ListClassViewHolder
+
+        private void checkProductsInList(String shoppingListSelectedId, String shoppingListSelectedName, Context context) {
+            db = FirebaseFirestore.getInstance();
+            // Obtén la referencia al documento de la lista en Firebase Firestore.
+            DocumentReference myListsRef = db.collection("myLists").document(shoppingListSelectedId);
+
+            myListsRef.collection("productsInList").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot productsSnapshot) {
+                    // Verificamos si la colección productsInList existe y tiene productos.
+                    if (!productsSnapshot.isEmpty()) {
                         Log.d("LIST ADAPTER", "HAY PRODUCTOS");
-                    // Si hay productos, vamos a la actividad de la lista de productos.
-                    Intent intent = new Intent(context, ProductsInShoppingList.class);
-                    intent.putExtra("shoppingListId", shoppingListSelectedId);
-                    intent.putExtra("shoppingListName", shoppingListSelectedName);
-                    context.startActivity(intent);
-                } else {
-                    Log.d("LIST ADAPTER", "NO HAY PRODUCTOS");
-                    // Si no hay productos, muestra la actividad de "No hay productos".
-                    showEmptyProductsActivity(context);
+                        // Si hay productos, vamos a la actividad de la lista de productos.
+                        Intent intent = new Intent(context, ProductsInShoppingList.class);
+                        intent.putExtra("shoppingListId", shoppingListSelectedId);
+                        intent.putExtra("shoppingListName", shoppingListSelectedName);
+                        context.startActivity(intent);
+                    } else {
+                        Log.d("LIST ADAPTER", "NO HAY PRODUCTOS");
+                        // Si no hay productos, muestra la actividad de "No hay productos".
+                        showEmptyProductsActivity(context);
+                    }
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Maneja el error al obtener la colección productsInList.
-                Toast.makeText(context, "Error al obtener la colección productsInList: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    private void checkProductsInCollection(CollectionReference productsInListRef, Context context) {
-        productsInListRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(
-                    QuerySnapshot productsSnapshot) {
-                if (!productsSnapshot.isEmpty()) {
-                    // La colección productsInList contiene productos, ve a la actividad de la lista de productos.
-                    Intent intent = new Intent(context, ProductsInShoppingList.class);
-                    intent.putExtra("shoppingListId", shoppingListSelectedId);
-                    intent.putExtra("shoppingListName", shoppingListSelectedName);
-                    // Puedes agregar más información según sea necesario.
-                    context.startActivity(intent);
-                } else {
-                    // La colección productsInList está vacía, muestra la actividad de "No hay productos".
-                    showEmptyProductsActivity(context);
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Maneja el error al obtener la colección productsInList.
+                    Toast.makeText(context, "Error al obtener la colección productsInList: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Maneja el error al obtener la colección productsInList.
-                Toast.makeText(context, "Error al obtener la colección productsInList: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+            });
 
-    private void showEmptyProductsActivity(Context context) {
-        Intent intent = new Intent(context, ProductsInShoppingListEmpty.class);
-        intent.putExtra("shoppingListId", shoppingListSelectedId);
-        intent.putExtra("shoppingListName", shoppingListSelectedName);
-        context.startActivity(intent);
-    }
+        }
 
+        private void showEmptyProductsActivity(Context context) {
+            Intent intent = new Intent(context, ProductsInShoppingListEmpty.class);
+            intent.putExtra("shoppingListId", shoppingListSelectedId);
+            intent.putExtra("shoppingListName", shoppingListSelectedName);
+            context.startActivity(intent);
+        }
+    }
 
 }
 

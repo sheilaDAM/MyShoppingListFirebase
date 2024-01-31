@@ -54,7 +54,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements UpdateLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toast.makeText(this, "Entró en listas para mostrarlas " , Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Entró en listas para mostrarlas" , Toast.LENGTH_SHORT).show();
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Mis listas de compra");
